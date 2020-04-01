@@ -229,7 +229,7 @@
                         avenant : avenant,
                         year : DateService.stats.yearCurrent,
                         commentaire : this.commentaire,
-                        reporte : false,
+                        reporte : 0,
                     };
                     let myHeaders = new Headers({
                         "Accept": "application/json",
