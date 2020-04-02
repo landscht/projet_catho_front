@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-subheader><v-chip v-for="(v, key) in links" color="primary" :key="key" :to="v.href" :disabled="v.disabled" class="ml-2">{{v.text}}</v-chip></v-subheader>
+        <Navigation :links="links"></Navigation>
         <v-card>
             <v-card-title>
                 Obtenez les fiches par collaborateur
@@ -45,7 +45,7 @@
                                 </v-tooltip>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on }">
-                                        <v-btn icon color="warning" dark v-on="on"><v-icon>mdi-pencil</v-icon></v-btn>
+                                        <v-btn icon color="warning" dark v-on="on" :to="`/update/${fiche.id}`"><v-icon>mdi-pencil</v-icon></v-btn>
                                     </template>
                                     <span>Modifier</span>
                                 </v-tooltip>
@@ -68,10 +68,11 @@
 
     import Collaborateur from "../services/Collaborateur";
     import Fiche from "./Fiche";
+    import Navigation from "./Navigation";
 
     export default {
         name: "SearchInfo",
-        components: {Fiche},
+        components: {Navigation, Fiche},
         data : () => ({
             links: [
                 {

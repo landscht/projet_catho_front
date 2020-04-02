@@ -8,6 +8,7 @@ import NewFiche from "./components/NewFiche";
 import Settings from "./components/Settings";
 import Liste from "./components/Liste";
 import SearchInfo from "./components/SearchInfo";
+import UpdateFiche from "./components/UpdateFiche";
 
 Vue.config.productionTip = false;
 
@@ -18,7 +19,8 @@ const router = new VueRouter({
     {path: '/new', component: NewFiche},
     {path: '/settings', component : Settings},
     {path: '/liste', component: Liste},
-    {path: '/searchInfo/:matricule', component: SearchInfo}
+    {path: '/searchInfo/:matricule', component: SearchInfo},
+    {path: '/update/:id', component: UpdateFiche}
   ]
 });
 

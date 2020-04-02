@@ -43,5 +43,20 @@ export default {
             headers : myHeaders,
             body : JSON.stringify(value),
         });
+    },
+
+    getFicheById(id) {
+        return fetch(`http://localhost:8081/coll/getById?id=${id}`, {
+            method: 'GET',
+        }).then((response) => response.json())
+            .then((data) => {
+                return data;
+            })
+    },
+
+    updateReporte(value) {
+        value.totalHeure = value.totalHeure + parseInt(value.reporte);
+        value.totalWorkPeriod = value.totalWorkPeriod + parseInt(value.reporte);
+        return value;
     }
 }

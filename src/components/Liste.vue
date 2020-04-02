@@ -1,6 +1,6 @@
 <template>
     <div>
-        <v-subheader><v-chip v-for="(v, key) in links" color="primary" :key="key" :to="v.href" :disabled="v.disabled" class="ml-2">{{v.text}}</v-chip></v-subheader>
+        <Navigation :links="links"></Navigation>
         <v-card>
             <v-card-title>
                 Collaborateurs
@@ -19,15 +19,19 @@
                             :items="colls"
                             :search="search"
                     >
-                        <template v-slot:item.reporte="{ item }">
-                            <v-switch v-model="item.reporte" @change="updateReporte(item)"></v-switch>
+                        <template v-slot:item.totalHeure="{ item }">
+                            <span v-if="item.statut === 'Admin heure'">{{item.totalHeure}}</span>
+                            <span v-else>0</span>
+                        </template>
+                        <template v-slot:item.totalWorkPeriod="{ item }">
+                            {{Math.ceil(item.totalWorkPeriod)}}
                         </template>
                         <template v-slot:item.detail="{item}">
                             <v-tooltip bottom>
                                 <template v-slot:activator="{ on }">
                                     <v-btn icon color="primary" @click="testTouch(item)" v-on="on"><v-icon>mdi-dots-horizontal</v-icon></v-btn>
                                 </template>
-                                <span v-if="item.commentaire.length !== 0">{{item.commentaire}}</span><span v-else>...</span>
+                                <span>{{item.commentaire}}</span>
                             </v-tooltip>
 
                         </template>
@@ -49,10 +53,11 @@
 
     import Collaborateur from "../services/Collaborateur";
     import Fiche from "./Fiche";
+    import Navigation from "./Navigation";
 
     export default {
         name: "Liste",
-        components: {Fiche},
+        components: {Navigation, Fiche},
         data : () => ({
             search: '',
             dialog : false,
@@ -74,7 +79,7 @@
                 { text: 'Service', value: 'service'},
                 { text: 'Forfait', value: 'statut'},
                 { text: 'Date d\'entree', value: 'date_entree' },
-                { text: 'Date de sortie', value: 'date_sortie' },
+                { text: 'Date fin periode', value: 'date_sortie' },
                 { text: 'Année d\'étude', value: 'year' },
                 { text: 'Nombre congés', value: 'totalConge'},
                 { text: 'Nombre RTT', value: 'totalRtt'},
@@ -108,7 +113,6 @@
         created() {
             Collaborateur.getAll().then((data) => {
                 this.colls = data;
-                console.log(data);
             });
         },
         methods : {
@@ -120,10 +124,6 @@
             redirect() {
                 this.$router.push(`/searchInfo/${this.coll.matricule}`)
             },
-            updateReporte(value) {
-                Collaborateur.updateFiche(value);
-                console.log(value);
-            }
         },
     }
 </script>

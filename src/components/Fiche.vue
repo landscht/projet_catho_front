@@ -46,32 +46,34 @@
                     </div>
                     <v-divider></v-divider>
                     <div>
-                        {{collaborateur.totalJourTravaille}} jours travaillés<br/>
+                        {{collaborateur.totalJourTravail}} jours travaillés<br/>
                         /5 jours pas semaine<br/>
-                        <span style="color: dodgerblue">{{collaborateur.totalSemaine}} semaines</span>
+                        <span style="color: dodgerblue">{{collaborateur.totalSemaine.toFixed(2)}} semaines</span>
                     </div>
                     <v-divider></v-divider>
                     <div>
-                        {{collaborateur.totalSemaine}} semaines<br/>
+                        {{collaborateur.totalSemaine.toFixed(2)}} semaines<br/>
                         *{{collaborateur.heure_hebdomadaire}} heures par semaine<br/>
-                        <span style="color: dodgerblue">{{collaborateur.totalHeure}} heures de travail à effectuer sur l'année</span>
+                        <span v-if="collaborateur.statut === 'Admin heure'">{{collaborateur.reporte}} heures à reporter<br/></span>
+                        <span style="color: dodgerblue">{{Math.ceil(collaborateur.totalHeure)}} heures de travail à effectuer sur l'année</span>
                     </div>
                     <v-divider></v-divider>
                     <div v-if="collaborateur.statut === 'Admin jour' || collaborateur.statut === 'Enseignant'">
-                        {{collaborateur.totalHeure}} heures de travail à effectuer sur l'année<br/>
+                        {{Math.ceil(collaborateur.totalHeure)}} heures de travail à effectuer sur l'année<br/>
                         /8 heures par jour en moyenne<br/>
-                        <span style="color: dodgerblue">{{collaborateur.totalMinDay}} jours</span>
+                        <span style="color: dodgerblue">{{Math.ceil(collaborateur.totalMinDay)}} jours</span>
                     </div>
                     <v-divider></v-divider>
                     <div v-if="collaborateur.statut === 'Admin jour' || collaborateur.statut === 'Enseignant'">
-                        {{collaborateur.totalMinDay}} jours<br/>
-                        +{{collaborateur.totalDayProra}} jours à proratiser sur l'année civile<br/>
-                        <span style="color: dodgerblue">{{collaborateur.totalWorkPeriod}} jours de travail sur la periode</span>
+                        {{Math.ceil(collaborateur.totalMinDay)}} jours<br/>
+                        +{{Math.ceil(collaborateur.totalDayProra)}} jours à proratiser sur l'année civile<br/>
+                        {{collaborateur.reporte}} jours à reporter<br/>
+                        <span style="color: dodgerblue">{{Math.ceil(collaborateur.totalWorkPeriod)}} jours de travail sur la periode</span>
                     </div>
                     <div>
                         <span style="color: green">{{collaborateur.totalRtt}} RTT</span>
                     </div>
-                    <div v-if="collaborateur.commentaire.length !== 0">
+                    <div>
                         <v-divider></v-divider>
                         <span v-if="!switchCom">{{collaborateur.commentaire}}</span>
                         <v-textarea

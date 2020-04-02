@@ -82,7 +82,7 @@
                     : `${a.getFullYear()}-${a.getMonth() + 1}-${a.getDate()}`
             },
             submit() {
-                DateService.getFerie(this.dateCurrent);
+                DateService.setYearCurrent(this.dateCurrent);
             },
         },
     }
