@@ -1,7 +1,9 @@
+import ApiService from "./ApiService";
+
 export default {
 
     getAll() {
-        return fetch('http://localhost:8081/coll/getAll', {
+        return fetch(`${ApiService.API_ENDPOINT}/coll/getAll`, {
             method: 'GET',
         }).then((response) => response.json())
             .then((data) => {
@@ -10,7 +12,7 @@ export default {
     },
 
     getAllMatricule() {
-        return fetch('http://localhost:8081/coll/getAllMatricule', {
+        return fetch( `${ApiService.API_ENDPOINT}/coll/getAllMatricule`, {
             method: 'GET',
         }).then((response) => response.json())
             .then((data) => {
@@ -19,7 +21,7 @@ export default {
     },
 
     getAllFicheByMatricule(matricule) {
-        return fetch(`http://localhost:8081/coll/getAllByMatricule?matricule=${matricule}`, {
+        return fetch(`${ApiService.API_ENDPOINT}/coll/getAllByMatricule?matricule=${matricule}`, {
             method: 'GET',
         }).then((response) => response.json())
             .then((data) => {
@@ -28,7 +30,7 @@ export default {
     },
 
     deleteFicheById(id) {
-       fetch(`http://localhost:8081/coll/deleteFicheById?id=${id}`, {
+       fetch(`${ApiService.API_ENDPOINT}/coll/deleteFicheById?id=${id}`, {
            method : 'DELETE'
        });
     },
@@ -38,7 +40,7 @@ export default {
             "Accept": "application/json",
             "Content-Type": "application/json",
         });
-        fetch('http://localhost:8081/coll/updateById', {
+        fetch(`${ApiService.API_ENDPOINT}/coll/updateById`, {
             method : 'PUT',
             headers : myHeaders,
             body : JSON.stringify(value),
@@ -46,7 +48,7 @@ export default {
     },
 
     getFicheById(id) {
-        return fetch(`http://localhost:8081/coll/getById?id=${id}`, {
+        return fetch(`${ApiService.API_ENDPOINT}/coll/getById?id=${id}`, {
             method: 'GET',
         }).then((response) => response.json())
             .then((data) => {
@@ -55,7 +57,7 @@ export default {
     },
 
     getAllByYear(year) {
-        return fetch(`http://localhost:8081/coll/getAllByYear?year=${year}`,{
+        return fetch(`${ApiService.API_ENDPOINT}/coll/getAllByYear?year=${year}`,{
             method : 'GET'
         }).then((response) => response.json())
             .then((data) => {

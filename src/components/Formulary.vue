@@ -145,6 +145,7 @@
     import DateService from "../services/DateService";
     import Services from "../services/Services";
     import YearService from "../services/YearService";
+    import ApiService from "../services/ApiService";
 
     export default {
         name: "Formulary",
@@ -181,7 +182,7 @@
                         "Accept": "application/json",
                         "Content-Type": "application/json",
                     });
-                    fetch('http://localhost:8081/coll/add', {
+                    fetch(`${ApiService.API_ENDPOINT}/coll/add`, {
                         method : 'POST',
                         headers : myHeaders,
                         body : JSON.stringify(this.collab),
