@@ -5,7 +5,7 @@ deploy:
   provider: heroku
   api-key:
     secure: $HEROKU_TOKEN
-  app: fastwebsite
+  app: projet-catho-front
 cache:
   directories:
   - node_modules
