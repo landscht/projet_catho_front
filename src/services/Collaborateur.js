@@ -54,9 +54,12 @@ export default {
             })
     },
 
-    updateReporte(value) {
-        value.totalHeure = value.totalHeure + parseInt(value.reporte);
-        value.totalWorkPeriod = value.totalWorkPeriod + parseInt(value.reporte);
-        return value;
+    getAllByYear(year) {
+        return fetch(`http://localhost:8081/coll/getAllByYear?year=${year}`,{
+            method : 'GET'
+        }).then((response) => response.json())
+            .then((data) => {
+                return data;
+            })
     }
 }

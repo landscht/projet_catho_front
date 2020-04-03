@@ -20,7 +20,6 @@ export default {
             .then((data) => {
                 data.forEach((d) => {
                     if(d.nom_jour_ferie !== "Lundi de Pentecôte") {
-                        console.log(d);
                         this.stats.joursFerie.push(new Date(`${d.date}T00:00:00`));
                     }
                 })
@@ -28,7 +27,7 @@ export default {
             });
     },
 
-    getStatsDate(form) {
+    getStatsDate(form, flagConge) {
         let dateIn = new Date(`${form.date_entree}T00:00:00`);
         let dateOut = new Date(`${form.date_sortie}T00:00:00`);
         console.log(dateIn, dateOut);
@@ -42,6 +41,7 @@ export default {
             date_entree : form.date_entree,
             date_sortie : form.date_sortie,
             heure_hebdomadaire : form.heure_hebdomadaire,
+            debut_periode : new Date(form.year, 0, 1, 10).toISOString().substr(0,10),
             service : form.service,
             statut : form.statut,
             totalJour : 0,
@@ -63,7 +63,7 @@ export default {
 
 
 
-        collab.totalConge = this.calculJourConge(dateIn, dateOut, collab.year);
+        collab.totalConge = (flagConge) ? this.calculJourConge(dateIn, dateOut, collab.year): form.totalConge;
 
         //let totalWorkingDay = 0;
         let datePlafond = new Date(collab.year, 0,1);
@@ -92,7 +92,6 @@ export default {
         let minDayTmp = collab.totalHeure/8;
         collab.totalMinDay = Math.ceil(minDayTmp);
         collab.totalDayProra = (5*collab.heure_hebdomadaire)/35*(collab.totalJour/365);
-        console.log(collab.totalMinDay, collab.totalDayProra, collab.reporte, collab.totalMinDay + collab.totalDayProra + collab.reporte)
         collab.totalWorkPeriod = collab.totalMinDay + collab.totalDayProra + parseInt(collab.reporte);
         collab.totalRtt = this.getRtt(collab.statut, collab.totalWorkPeriod, collab.totalHeure);
         collab.avenant = (collab.statut === 'Enseignant') ? 10*collab.totalJour/365*collab.heure_hebdomadaire/35 : 0;
@@ -131,18 +130,15 @@ export default {
         let res = 0;
         let dateTmpIn = new Date(dateIn.getFullYear(), dateIn.getMonth(), 1);
         let dateTmpOut = new Date(dateOut.getFullYear(), dateOut.getMonth(), 1);
-        console.log(dateIn, dateOut, dateFlag, dateFlagOut, dateTmpIn,dateTmpOut);
         if(dateIn > dateFlag && dateIn < dateFlagOut) {
             res += ((30-dateIn.getDate()+1)*coeff)/30;
             dateTmpIn.setFullYear(dateTmpIn.getFullYear(), dateTmpIn.getMonth()+1, 1);
-            console.log('je rentre ici', res, dateTmpIn);
         }
         if(dateOut > dateFlag && dateOut < dateFlagOut) {
             res += (dateOut.getDate()*coeff)/30;
             dateTmpOut.setFullYear(dateTmpOut.getFullYear(), dateTmpOut.getMonth()-1, 1);
         }
         while(dateTmpIn <= dateTmpOut) {
-            console.log('1');
             if(dateTmpIn > dateFlag && dateTmpIn < dateFlagOut) {
                 res += coeff
             }

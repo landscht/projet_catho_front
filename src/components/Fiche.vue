@@ -9,7 +9,7 @@
                     <template v-slot:activator="{ on }">
                         <span v-on="on">{{collaborateur.year}}</span>
                     </template>
-                    <span>Année d'etude</span>
+                    <span>Année d'etude : du {{collaborateur.debut_periode}} au {{collaborateur.date_sortie}}</span>
                 </v-tooltip>
                 <br/>
                 <v-tooltip bottom>

@@ -1,9 +1,10 @@
 <template>
     <div>
+        <Navigation :links="links"></Navigation>
         <v-container>
             <v-row>
                 <v-col cols="12" sm="6">
-                    <Formulary v-on:fiche="submit" :form-fiche="formFiche"></Formulary>
+                    <Formulary v-on:fiche="submit" :form-fiche="formFiche" :update-flag="false"></Formulary>
                 </v-col>
                 <v-col cols="12" sm="6">
                     <Fiche  v-if="generate" :collaborateur="this.collab"></Fiche>
@@ -18,10 +19,11 @@
     import Fiche from "./Fiche";
     import Formulary from "./Formulary";
     import DateService from "../services/DateService";
+    import Navigation from "./Navigation";
 
     export default {
         name: "NewFiche",
-        components: {Formulary, Fiche},
+        components: {Navigation, Formulary, Fiche},
         data : () => ({
             formFiche : {
                 service : '',

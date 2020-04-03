@@ -1,5 +1,6 @@
 export default {
     services : [
+        'ACCUEIL - FRONT OFFICE + SAIO + CCV 20',
         'AFFAIRES SOCIALES',
         'AUMONERIE',
         'BADGES',

@@ -21,24 +21,7 @@
                                 <v-spacer></v-spacer>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on }">
-                                        <v-btn icon color="error" dark v-on="on" @click="sheet = true"><v-icon>mdi-close-circle</v-icon>
-                                            <v-bottom-sheet v-model="sheet" inset>
-                                                <v-sheet class="text-center" height="200px">
-                                                    <v-btn
-                                                            class="mt-6"
-                                                            text
-                                                            color="error"
-                                                            @click="deleteFiche(fiche)"
-                                                    >Oui</v-btn>
-                                                    <v-btn
-                                                            class="mt-6"
-                                                            text
-                                                            color="primary"
-                                                            @click="sheet = !sheet"
-                                                    >Non</v-btn>
-                                                    <div class="my-3">Voulez vous vraiment supprimer ?</div>
-                                                </v-sheet>
-                                            </v-bottom-sheet>
+                                        <v-btn icon color="error" dark v-on="on" @click="updateId(fiche)"><v-icon>mdi-close-circle</v-icon>
                                         </v-btn>
                                     </template>
                                     <span>Supprimer</span>
@@ -61,6 +44,23 @@
                 </v-row>
             </v-container>
         </v-card>
+        <v-bottom-sheet v-model="sheet" inset>
+            <v-sheet class="text-center" height="200px">
+                <v-btn
+                        class="mt-6"
+                        text
+                        color="error"
+                        @click="deleteFiche()"
+                >Oui</v-btn>
+                <v-btn
+                        class="mt-6"
+                        text
+                        color="primary"
+                        @click="sheet = !sheet"
+                >Non</v-btn>
+                <div class="my-3">Voulez vous vraiment supprimer ?</div>
+            </v-sheet>
+        </v-bottom-sheet>
     </div>
 </template>
 
@@ -88,6 +88,7 @@
             ],
             items : [],
             fiches : [],
+            fiche : {},
             selectMatricule : '',
             sheet : false,
         }),
@@ -103,11 +104,18 @@
                 Collaborateur.getAllFicheByMatricule(this.selectMatricule).then((data) => {this.fiches = data})
             }
         },
+        updated() {
+          console.log('changement');
+        },
         methods : {
-            deleteFiche(fiche) {
-                console.log(fiche);
+            deleteFiche() {
                 this.sheet = !this.sheet;
-                Collaborateur.deleteFicheById(fiche.id);
+                this.fiches.splice(this.fiches.indexOf(this.fiche), 1);
+                Collaborateur.deleteFicheById(this.fiche.id);
+            },
+            updateId(fiche) {
+                this.sheet = !this.sheet;
+                this.fiche = fiche;
             }
         }
     }

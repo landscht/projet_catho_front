@@ -18,6 +18,10 @@
                             :headers="headers"
                             :items="colls"
                             :search="search"
+                            no-data-text="Aucune fiche collaborateur"
+                            :footer-props="{
+                                itemsPerPageText : 'Lignes par page'
+                            }"
                     >
                         <template v-slot:item.totalHeure="{ item }">
                             <span v-if="item.statut === 'Admin heure'">{{item.totalHeure}}</span>
@@ -79,6 +83,7 @@
                 { text: 'Service', value: 'service'},
                 { text: 'Forfait', value: 'statut'},
                 { text: 'Date d\'entree', value: 'date_entree' },
+                { text: 'Date début période', value:'debut_periode'},
                 { text: 'Date fin periode', value: 'date_sortie' },
                 { text: 'Année d\'étude', value: 'year' },
                 { text: 'Nombre congés', value: 'totalConge'},
@@ -105,11 +110,6 @@
 
             ],
         }),
-        watch : {
-            colls: function() {
-                console.log(this.colls);
-            }
-        },
         created() {
             Collaborateur.getAll().then((data) => {
                 this.colls = data;
@@ -119,7 +119,6 @@
             testTouch(value) {
                 this.coll = value;
                 this.dialog = true;
-                 console.log(value)
             },
             redirect() {
                 this.$router.push(`/searchInfo/${this.coll.matricule}`)

@@ -14,6 +14,7 @@
                 <v-select
                         v-model="formFiche.year"
                         :items="yearsSelect"
+                        v-if="!updateFlag"
                         label="Année"
                         :rules="[v => !!v || 'L\'année est requise']"
                         @change="updateFerie"
@@ -66,7 +67,7 @@
                     </template>
                     <v-card>
                         <v-card-title class="headline">Date d'entrée</v-card-title>
-                        <v-card-text><v-date-picker landscape v-model="formFiche.date_entree" header-color="primary"></v-date-picker></v-card-text>
+                        <v-card-text><v-date-picker  @click:date="dialog = false" landscape v-model="formFiche.date_entree" header-color="primary"></v-date-picker></v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn @click="dialog = false">Valider</v-btn>
@@ -86,7 +87,7 @@
                     </template>
                     <v-card>
                         <v-card-title class="headline">Date d'entrée</v-card-title>
-                        <v-card-text><v-date-picker landscape v-model="formFiche.date_sortie" header-color="primary"></v-date-picker></v-card-text>
+                        <v-card-text><v-date-picker @click:date="dialog2" landscape v-model="formFiche.date_sortie" header-color="primary"></v-date-picker></v-card-text>
                         <v-card-actions>
                             <v-spacer></v-spacer>
                             <v-btn @click="dialog2 = false">Valider</v-btn>
@@ -109,6 +110,17 @@
                         label="Penalite de conge"
                         type="number"
                 ></v-text-field>
+                <v-checkbox
+                        v-model="flagConge"
+                        label="Calculer automatiquement les congés"
+                ></v-checkbox>
+                <v-text-field
+                        v-model="formFiche.totalConge"
+                        v-if="!flagConge"
+                        label="Nombre de congé"
+                        outlined
+                        type="number"
+                ></v-text-field>
                 <v-text-field
                         v-model="formFiche.reporte"
                         label="Report"
@@ -119,6 +131,7 @@
                         label="Commentaire"
                         :rules="commentaireRules"
                         counter="100"
+                        outlined
                 >
                 </v-textarea>
                 <v-btn class="mr-4" @click="submit" :disabled="!valid">Créer</v-btn>
@@ -131,11 +144,13 @@
 
     import DateService from "../services/DateService";
     import Services from "../services/Services";
+    import YearService from "../services/YearService";
 
     export default {
         name: "Formulary",
         props : {
-            formFiche : {}
+            formFiche : {},
+            updateFlag: Boolean
         },
         data : () => ({
             dateRules: [
@@ -147,6 +162,7 @@
             valid : true,
             dialog : false,
             dialog2 : false,
+            flagConge : true,
             status : [
                 'Admin jour',
                 'Admin heure',
@@ -155,38 +171,12 @@
             collab : {},
             generate : false,
             services : Services.services,
-            yearsSelect : [
-                '2000',
-                '2001',
-                '2002',
-                '2003',
-                '2004',
-                '2005',
-                '2006',
-                '2007',
-                '2008',
-                '2009',
-                '2010',
-                '2011',
-                '2012',
-                '2013',
-                '2014',
-                '2015',
-                '2016',
-                '2017',
-                '2018',
-                '2019',
-                '2020',
-                '2021',
-                '2022',
-                '2023',
-                '2024'
-            ]
+            yearsSelect: YearService.yearsSelect
         }),
         methods : {
             submit() {
                 if(this.$refs.form.validate()) {
-                    this.collab = DateService.getStatsDate(this.formFiche);
+                    this.collab = DateService.getStatsDate(this.formFiche, this.flagConge);
                     let myHeaders = new Headers({
                         "Accept": "application/json",
                         "Content-Type": "application/json",

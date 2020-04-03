@@ -10,7 +10,7 @@
                             <Fiche :collaborateur="coll"></Fiche>
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <Formulary v-on:fiche="submit" :form-fiche="coll"></Formulary>
+                            <Formulary v-on:fiche="submit" :form-fiche="coll" :update-flag="true"></Formulary>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -34,7 +34,6 @@
             coll : {}
         },
         data : () => ({
-            coll : {},
             links: [
                 {
                     text: 'Accueil',
