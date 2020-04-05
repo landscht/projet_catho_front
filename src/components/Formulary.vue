@@ -146,6 +146,7 @@
     import Services from "../services/Services";
     import YearService from "../services/YearService";
     import ApiService from "../services/ApiService";
+    import authHeader from "../services/Auth-header";
 
     export default {
         name: "Formulary",
@@ -178,13 +179,9 @@
             submit() {
                 if(this.$refs.form.validate()) {
                     this.collab = DateService.getStatsDate(this.formFiche, this.flagConge);
-                    let myHeaders = new Headers({
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                    });
                     fetch(`${ApiService.API_ENDPOINT}/coll/add`, {
                         method : 'POST',
-                        headers : myHeaders,
+                        headers : authHeader(),
                         body : JSON.stringify(this.collab),
                     });
                     this.generate = true;

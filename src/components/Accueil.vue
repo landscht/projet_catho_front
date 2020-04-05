@@ -25,6 +25,7 @@
                             </v-btn>
                         </template>
                         <span>Mode nuit</span>
+                        {{content}}
                     </v-tooltip>
                 </v-col>
             </v-row>
@@ -33,14 +34,31 @@
 </template>
 
 <script>
+
     import Navigation from "./Navigation";
+    import UserService from "../services/User.service"
+
     export default {
         name: "Accueil",
         components: {Navigation},
         data : () => ({
             colorButton : '',
             nav : true,
+            content : ''
         }),
+        mounted() {
+            UserService.getUserBoard().then(
+                response => {
+                    this.content = response.data;
+                },
+                error => {
+                    this.content =
+                        (error.response && error.response.data) ||
+                        error.message ||
+                        error.toString();
+                }
+            );
+        },
         created() {
             this.colorButton = (this.$vuetify.theme.dark === true) ? 'success' : '';
 

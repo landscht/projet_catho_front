@@ -9,6 +9,9 @@ import Liste from "./components/Liste";
 import SearchInfo from "./components/SearchInfo";
 import UpdateFiche from "./components/UpdateFiche";
 import Copie from "./components/Copie";
+import store from "./store"
+import Login from "./components/Login";
+import Profile from "./components/Profile";
 
 Vue.config.productionTip = false;
 
@@ -20,12 +23,29 @@ const router = new VueRouter({
     {path: '/liste', component: Liste},
     {path: '/searchInfo/:matricule', component: SearchInfo},
     {path: '/update/:id', component: UpdateFiche},
-    {path: '/copie', component: Copie}
+    {path: '/copie', component: Copie},
+    {path: '/login', component: Login},
+    {path: '/profile', component: Profile}
   ]
+});
+
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register', '/home'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !loggedIn) {
+    next('/login');
+  } else {
+    next();
+  }
 });
 
 new Vue({
   vuetify,
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

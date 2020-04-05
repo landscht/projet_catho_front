@@ -1,10 +1,12 @@
 import ApiService from "./ApiService";
+import authHeader from "./Auth-header";
 
 export default {
 
     getAll() {
         return fetch(`${ApiService.API_ENDPOINT}/coll/getAll`, {
             method: 'GET',
+            headers : authHeader()
         }).then((response) => response.json())
             .then((data) => {
                 return data;
@@ -14,6 +16,7 @@ export default {
     getAllMatricule() {
         return fetch( `${ApiService.API_ENDPOINT}/coll/getAllMatricule`, {
             method: 'GET',
+            headers : authHeader()
         }).then((response) => response.json())
             .then((data) => {
                 return data;
@@ -23,6 +26,7 @@ export default {
     getAllFicheByMatricule(matricule) {
         return fetch(`${ApiService.API_ENDPOINT}/coll/getAllByMatricule?matricule=${matricule}`, {
             method: 'GET',
+            headers : authHeader()
         }).then((response) => response.json())
             .then((data) => {
                 return data;
@@ -31,18 +35,15 @@ export default {
 
     deleteFicheById(id) {
        fetch(`${ApiService.API_ENDPOINT}/coll/deleteFicheById?id=${id}`, {
-           method : 'DELETE'
+           method : 'DELETE',
+           headers : authHeader()
        });
     },
 
     updateFiche(value) {
-        let myHeaders = new Headers({
-            "Accept": "application/json",
-            "Content-Type": "application/json",
-        });
         fetch(`${ApiService.API_ENDPOINT}/coll/updateById`, {
             method : 'PUT',
-            headers : myHeaders,
+            headers : authHeader(),
             body : JSON.stringify(value),
         });
     },
@@ -58,7 +59,8 @@ export default {
 
     getAllByYear(year) {
         return fetch(`${ApiService.API_ENDPOINT}/coll/getAllByYear?year=${year}`,{
-            method : 'GET'
+            method : 'GET',
+            headers : authHeader()
         }).then((response) => response.json())
             .then((data) => {
                 return data;

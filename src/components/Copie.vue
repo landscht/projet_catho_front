@@ -77,6 +77,8 @@
     import Fiche from "./Fiche";
     import YearService from "../services/YearService";
     import DateService from "../services/DateService";
+    import ApiService from "../services/ApiService";
+    import authHeader from "../services/Auth-header";
     export default {
         name: "Copie",
         components: {Fiche, Navigation},
@@ -159,13 +161,9 @@
                     c.date_sortie = new Date(this.yearCopie, 11, 31, 10).toISOString().substr(0 ,10);
                     c.commentaire = '';
                     let newValue = DateService.getStatsDate(c, true);
-                    let myHeaders = new Headers({
-                        "Accept": "application/json",
-                        "Content-Type": "application/json",
-                    });
-                    fetch('http://localhost:8081/coll/add', {
+                    fetch(`${ApiService.API_ENDPOINT}/coll/add`, {
                         method : 'POST',
-                        headers : myHeaders,
+                        headers : authHeader(),
                         body : JSON.stringify(newValue),
                     });
                     console.log(newValue);
