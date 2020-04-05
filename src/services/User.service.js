@@ -6,19 +6,19 @@ const API_URL = ApiService.API_ENDPOINT;
 
 class UserService {
     getPublicContent() {
-        return axios.get(API_URL + 'all');
+        return axios.get(API_URL + '/api/auth/all');
     }
 
     getUserBoard() {
-        return axios.get(API_URL + 'user', { headers: authHeader() });
+        return axios.get(API_URL + '/api/auth/user', { headers: authHeader() });
     }
 
     getModeratorBoard() {
-        return axios.get(API_URL + 'mod', { headers: authHeader() });
+        return axios.get(API_URL + '/api/auth/mod', { headers: authHeader() });
     }
 
     getAdminBoard() {
-        return axios.get(API_URL + 'admin', { headers: authHeader() });
+        return axios.get(API_URL + '/api/auth/admin', { headers: authHeader() });
     }
 }
 

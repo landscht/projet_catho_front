@@ -12,6 +12,7 @@ import Copie from "./components/Copie";
 import store from "./store"
 import Login from "./components/Login";
 import Profile from "./components/Profile";
+import BoardAdmin from "./components/BoardAdmin";
 
 Vue.config.productionTip = false;
 
@@ -25,7 +26,8 @@ const router = new VueRouter({
     {path: '/update/:id', component: UpdateFiche},
     {path: '/copie', component: Copie},
     {path: '/login', component: Login},
-    {path: '/profile', component: Profile}
+    {path: '/profile', component: Profile},
+    {path: '/admin', component: BoardAdmin}
   ]
 });
 
@@ -33,6 +35,7 @@ router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/register', '/home'];
   const authRequired = !publicPages.includes(to.path);
   const loggedIn = localStorage.getItem('user');
+
 
   // trying to access a restricted page + not logged in
   // redirect to login page

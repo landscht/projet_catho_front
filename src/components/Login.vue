@@ -6,6 +6,7 @@
                         max-width="500px">
                     <v-card-title>Se connecter</v-card-title>
                     <v-card-subtitle>Calcul de durée annualisée</v-card-subtitle>
+                    <v-alert v-if="wrong" color="error">Login ou mot de passe incorrect</v-alert>
                     <v-card-text>
                         <v-form v-model="valid" ref="form">
                             <v-text-field
@@ -19,11 +20,10 @@
                                     label="Mot de passe"
                                     :rules="[v => !!v || 'Veuillez entrer votre mot de passe']"
                             ></v-text-field>
-                            <v-btn @click="handleLogin" :disabled="!valid">Se connecter</v-btn>
+                            <v-btn :loading="loading" @click="handleLogin" :disabled="!valid">Se connecter</v-btn>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
-                        {{message}}
                     </v-card-actions>
                 </v-card>
             </v-col>
@@ -39,6 +39,8 @@
         data : () => ({
             user : new User('', ''),
             valid: false,
+            wrong: false,
+            loading: false,
             message : ''
         }),
         created() {
@@ -49,6 +51,7 @@
         methods: {
             handleLogin() {
                 if(this.$refs.form.validate()) {
+                    this.loading = true;
                     if (this.user.username && this.user.password) {
                         this.$store.dispatch('auth/login', this.user).then(
                             () => {
@@ -60,6 +63,9 @@
                                     (error.response && error.response.data) ||
                                     error.message ||
                                     error.toString();
+                                this.wrong = true;
+                                this.loading = false;
+                                this.$refs.form.reset();
                             }
                         );
                     }

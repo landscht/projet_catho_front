@@ -1,5 +1,6 @@
 <template>
     <div>
+        <Navigation :links="links"></Navigation>
         <v-card>
             <v-card-title>{{content}}</v-card-title>
         </v-card>
@@ -8,25 +9,30 @@
 
 <script>
 
-    import UserService from '../services/User.service';
+    import Navigation from "./Navigation";
 
     export default {
         name: "BoardAdmin",
+        components: {Navigation},
         data : () => ({
-            content : ''
+            content : '',
+            links: [
+                {
+                    text: 'Accueil',
+                    disabled: false,
+                    href: '/accueil'
+                },
+                {
+                    text: 'Admin',
+                    disabled: true,
+                    href: '/admin'
+                }
+            ]
         }),
         mounted() {
-            UserService.getUserBoard().then(
-                response => {
-                    this.content = response.data;
-                },
-                error => {
-                    this.content =
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString();
-                }
-            );
+            if(!this.$store.state.auth.user.roles.includes('ROLE_ADMIN')) {
+                this.$router.push('/accueil');
+            }
         }
     }
 </script>
