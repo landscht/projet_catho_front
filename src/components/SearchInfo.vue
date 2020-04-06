@@ -34,9 +34,9 @@
                                 </v-tooltip>
                                 <v-tooltip bottom>
                                     <template v-slot:activator="{ on }">
-                                        <v-btn icon color="primary" dark v-on="on"><v-icon>mdi-close-circle</v-icon></v-btn>
+                                        <v-btn icon color="primary" @click="generatePdf(fiche)" dark v-on="on"><v-icon>mdi-pdf-box</v-icon></v-btn>
                                     </template>
-                                    <span>Copier</span>
+                                    <span>Pdf</span>
                                 </v-tooltip>
                             </v-card-actions>
                         </v-card>
@@ -116,6 +116,15 @@
             updateId(fiche) {
                 this.sheet = !this.sheet;
                 this.fiche = fiche;
+            },
+            generatePdf() {
+                let pdfMake = require('pdfmake/build/pdfmake');
+                if (pdfMake.vfs == undefined){
+                    var pdfFonts = require('pdfmake/build/vfs_fonts.js')
+                    pdfMake.vfs = pdfFonts.pdfMake.vfs;
+                }
+                var docDefinition = { content: 'Durée annualisée ' };
+                pdfMake.createPdf(docDefinition).download();
             }
         }
     }

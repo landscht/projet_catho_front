@@ -51,6 +51,7 @@ export default {
     getFicheById(id) {
         return fetch(`${ApiService.API_ENDPOINT}/coll/getById?id=${id}`, {
             method: 'GET',
+            headers : authHeader()
         }).then((response) => response.json())
             .then((data) => {
                 return data;
