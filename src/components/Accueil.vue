@@ -6,7 +6,7 @@
                 <v-col cols="12" sm="7">
                     <v-alert dark color="warning" v-if="dialog">
                         Vous êtes actuellement sur un environnement de développement hébergé sur des serveurs gratuits
-                        , cela explique que vous pouvez rencontrer des ralentissements durant les différentes requpetes<br/>
+                        , cela explique que vous pouvez rencontrer des ralentissements durant les différentes requêtes<br/>
                         <v-spacer></v-spacer>
                         <v-btn icon @click="dialog = false"><v-icon>mdi-close</v-icon></v-btn>
                     </v-alert>
