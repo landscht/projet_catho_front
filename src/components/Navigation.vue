@@ -7,6 +7,7 @@
         name: "Navigation",
         props : {
             links: Array
+
         }
     }
 </script>

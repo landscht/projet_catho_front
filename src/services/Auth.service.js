@@ -1,5 +1,6 @@
 import axios from 'axios';
 import ApiService from "./ApiService";
+import authHeader from "./Auth-header";
 
 const API_URL = ApiService.API_ENDPOINT;
 
@@ -27,8 +28,9 @@ class AuthService {
         return axios.post(API_URL + '/api/auth/signup', {
             username: user.username,
             email: user.email,
-            password: user.password
-        });
+            password: user.password,
+            role : user.role
+        }, {headers : authHeader()});
     }
 }
 
