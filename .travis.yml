@@ -5,7 +5,7 @@ deploy:
   provider: heroku
   app: projet-catho-front
   api_key:
-  	secure: $HEROKU_API_KEY
+    secure: $HEROKU_API_KEY
 cache:
   directories:
   - node_modules
