@@ -15,10 +15,12 @@
   export default {
     name: 'App',
     components: {NavigationBar},
-    mounted() {
-      if(localStorage.darkMode) {
-        this.$vuetify.theme.dark = localStorage.darkMode;
+    created() {
+      if(localStorage.getItem('dark-mode') !== null) {
+        this.$vuetify.theme.dark = true;
       }
+    },
+    mounted() {
       DateService.getFerie('2020');
     }
   };

@@ -73,7 +73,7 @@
         methods : {
             changeTheme() {
                 this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-                localStorage.darkMode = this.$vuetify.theme.dark;
+                this.$vuetify.theme.dark ? localStorage.setItem('dark-mode', true) : localStorage.removeItem('dark-mode');
                 this.colorButton = (this.$vuetify.theme.dark === true) ? 'success' : '';
             },
         }
