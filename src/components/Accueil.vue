@@ -73,6 +73,7 @@
         methods : {
             changeTheme() {
                 this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
+                localStorage.darkMode = this.$vuetify.theme.dark;
                 this.colorButton = (this.$vuetify.theme.dark === true) ? 'success' : '';
             },
         }

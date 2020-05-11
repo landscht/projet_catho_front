@@ -16,6 +16,9 @@
     name: 'App',
     components: {NavigationBar},
     mounted() {
+      if(localStorage.darkMode) {
+        this.$vuetify.theme.dark = localStorage.darkMode;
+      }
       DateService.getFerie('2020');
     }
   };
